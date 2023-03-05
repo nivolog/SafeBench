@@ -1,9 +1,13 @@
 #!/usr/bin/env
 import rospy
 import os.path as osp
+import sys 
 
-from planning.carla_runner import CarlaRunner
-from planning.safe_rl.util.run_util import load_config
+sys.path.append('/home/carla/Evaluation/src/agent/gym_node/src/planning')
+# from planning.carla_runner import CarlaRunner
+from carla_runner import CarlaRunner
+# from planning.safe_rl.util.run_util import load_config
+from safe_rl.util.run_util import load_config
 
 from carla_ros_scenario_runner_types.msg import CarlaScenarioStatus
 

@@ -36,6 +36,7 @@ import rospy
 import joblib
 from enum import Enum
 
+import xml.etree.ElementTree as ET
 import carla
 
 from srunner.scenariomanager.carla_data_provider import CarlaDataProvider
@@ -284,7 +285,8 @@ class ScenarioRunner(object):
         """
         Spawn or update the ego vehicles
         """
-
+        print('@@@@@Ego vehicles here {}'.format(ego_vehicles))
+        
         if not self._args.waitForEgo:
             for vehicle in ego_vehicles:
                 self.ego_vehicles.append(CarlaDataProvider.request_new_actor(vehicle.model,
@@ -646,12 +648,35 @@ class ScenarioRunner(object):
             # else:
             #     testing_method = item['method']
 
+        def update_route_for_apollo(config):
+            waypoint_list = config.trajectory
+            root = ET.Element('root')
+            for point in waypoint_list:
+                wp = ET.SubElement(root, 'waypoint')
+                if isinstance(point, carla.Transform):
+                    wp.attrib['x'] = str(point.location.x)
+                    wp.attrib['y'] = str(point.location.y)
+                    wp.attrib['z'] = str(point.location.z)
+                    wp.attrib['roll'] = str(point.orientation.roll)
+                    wp.attrib['pitch'] = str(point.orientation.pitch)
+                    wp.attrib['yaw'] = str(point.orientation.yaw)
+                elif isinstance(point, carla.Location):
+                    wp.attrib['x'] = str(point.x)
+                    wp.attrib['y'] = str(point.y)
+                    wp.attrib['z'] = str(point.z)
+                    wp.attrib['roll'] = str(0)
+                    wp.attrib['pitch'] = str(0)
+                    wp.attrib['yaw'] = str(0)
+            tree = ET.ElementTree(root)
+            tree.write('../scenario_routing/cur_route.xml')
+        
         if self._args.train_agent:
             print('training agent...')
             for episode in range(self._args.train_agent_episodes):
                 print('episode {}/{}'.format(episode + 1, self._args.train_agent_episodes))
                 for config_idx, config in enumerate(route_configurations):
                     print('config {}/{}'.format(config_idx + 1, len(route_configurations)))
+                    update_route_for_apollo(config)
                     result, record = self._load_and_run_scenario(config)
                     self._cleanup()
         else:
@@ -667,6 +692,7 @@ class ScenarioRunner(object):
                 record_dict = {}
             for config_idx, config in enumerate(route_configurations):
                 print('config {}/{}'.format(config_idx + 1, len(route_configurations)))
+                update_route_for_apollo(config)
                 if config.data_id in record_dict and len(record_dict[config.data_id]) > 0:
                     print('skipping tested scenario', config.data_id)
                     continue

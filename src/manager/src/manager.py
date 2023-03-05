@@ -119,7 +119,7 @@ class ManagernNode(object):
         obj = obj.replace('[[role_name]]', role_name)
 
         v['track'] = self.track
-        vehicle = four_wheel_vehicle[1]  # random.choice(four_wheel_vehicle)
+        vehicle = four_wheel_vehicle[7]  # random.choice(four_wheel_vehicle)
         obj = obj.replace('[[vehicle]]', vehicle)
 
         json_file = '/tmp/%s.json' % role_name
