@@ -1,1 +1,1 @@
-sudo docker exec -it platform /bin/bash
+docker exec -it platform /bin/bash

@@ -1,6 +1,6 @@
 CURRENT_PATH="$PWD"
 
-sudo docker run \
+docker run \
     --name platform \
     --privileged \
     --rm \
