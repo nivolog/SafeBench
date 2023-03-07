@@ -406,24 +406,27 @@ class ScenarioRunner(object):
                 self.world = self.client.load_world(town)
 
             while not updated:
-                response = None
-                rospy.wait_for_service('/gym_node/update_render_map')
-                try:
-                    requester = rospy.ServiceProxy('/gym_node/update_render_map', UpdateRenderMap)
-                    print('updating render map')
-                    response = requester(town)
-                    if response is not None:
-                        updated = response.result
-                except rospy.ServiceException as e:
-                    rospy.loginfo('Run scenario service call failed: {}'.format(e))
+                previous_town = self.client.get_world().get_map().name
+                updated = previous_town == town
+                # response = None
+                # rospy.wait_for_service('/gym_node/update_render_map')
+                # try:
+                #     requester = rospy.ServiceProxy('/gym_node/update_render_map', UpdateRenderMap)
+                #     print('updating render map')
+                #     response = requester(town)
+                #     if response is not None:
+                #         updated = response.result
+                # except rospy.ServiceException as e:
+                #     rospy.loginfo('Run scenario service call failed: {}'.format(e))
 
-            ego_vehicle_found = False
+            ego_vehicle_found = False if len(self.ego_vehicles) == 0 else True
             # if config.initial_transform is not None:
             #     # TODO: check initial pose
             #     self._set_initial_position(config.initial_transform)
             print("============= waiting for ego vehicle")
             if self._args.waitForEgo:
                 while not ego_vehicle_found and not self._shutdown_requested:
+                    time.sleep(1)
                     vehicles = self.client.get_world().get_actors().filter('vehicle.*')
                     print(ego_vehicles, vehicles, config, config.ego_vehicles, self.ego_vehicles)
                     if len(ego_vehicles) == 0:
@@ -432,6 +435,7 @@ class ScenarioRunner(object):
                         for actor in self.client.get_world().get_actors():
                             if actor.attributes.get('role_name') == 'ego_vehicle':
                                 default_rolename_found = True
+                                
                         if default_rolename_found:
                             print("============= Found default rolename 'ego_vehicle'. Stop waiting")
                             break

@@ -557,16 +557,16 @@ class RouteScenarioDynamic(BasicScenarioDynamic):
         config = self.config
         # Create the background activity of the route
         town_amount = {
-            'Town01': 120,
-            'Town02': 100,
-            'Town03': 120,
-            'Town04': 200,
-            'Town05': 120,
-            'Town06': 150,
-            'Town07': 110,
-            'Town08': 180,
-            'Town09': 300,
-            'Town10': 120,
+            'Town01': 12,
+            'Town02': 10,
+            'Town03': 12,
+            'Town04': 20,
+            'Town05': 12,
+            'Town06': 15,
+            'Town07': 11,
+            'Town08': 18,
+            'Town09': 30,
+            'Town10': 12,
         }
 
         if config.initialize_background_actors:

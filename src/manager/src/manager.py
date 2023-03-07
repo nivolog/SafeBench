@@ -177,7 +177,7 @@ class ManagernNode(object):
         else:
             raise RuntimeError('Wrong agent name.')
         cmd = ('roslaunch '+node_name+' create_agent.launch port:=%s role_name:=%s policy:=%s obs_type:=%s load_dir:=%s mode:=%s epochs:=%s sample_episode_num:=%s &') % tuple([self.port, v['role_name'], policy, obs_type, load_dir, mode, epochs, sample_episode_num])
-        subprocess.Popen(cmd, preexec_fn=os.setsid, shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
+        # subprocess.Popen(cmd, preexec_fn=os.setsid, shell=True, stdin=None, stdout=None, stderr=None, close_fds=True)
 
     # callback function to rospy.on_shutdown()
     def shut_down(self):
@@ -211,7 +211,6 @@ if __name__ == '__main__':
         manager_node.create_agent_and_scene()
         rate = rospy.Rate(20)
         rospy.on_shutdown(manager_node.shut_down)
-
         status_subscriber = rospy.Subscriber("/scenario_runner/status",
                                              CarlaScenarioRunnerStatus,
                                              scenario_runner_status_callback)

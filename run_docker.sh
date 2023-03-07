@@ -14,5 +14,4 @@ docker run \
     -v $CURRENT_PATH/pkgs:/home/carla/Evaluation/pkgs:rw \
     -v $CURRENT_PATH/pkgs/scenario_runner:/home/carla/scenario_runner:rw \
     -v $CURRENT_PATH/../SafeBench_bridge/scenario_routing:/home/carla/scenario_routing:rw \
-    garyxcj/carla \
-    carla-simulator/CarlaUE4.sh -opengl
+    garyxcj/carla

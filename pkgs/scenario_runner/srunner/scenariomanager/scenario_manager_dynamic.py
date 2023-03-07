@@ -262,7 +262,6 @@ class ScenarioManagerDynamic(object):
             # Update game time and actor information
             GameTime.on_carla_tick(timestamp)
             CarlaDataProvider.on_carla_tick()
-
             # Tick scenario
             # note: for the background
             self.scenario_tree.tick_once()
@@ -306,6 +305,7 @@ class ScenarioManagerDynamic(object):
             # if len(actors) > 2:
             #     print('other 2', actors[2][1].get_transform())
             #     # print('other 2', actors[2][1].get_velocity())
+            print("\n--------- DBG ---------\n")
 
         if self._sync_mode and self._running and self._watchdog.get_status():
             # tick other parts in scenarios

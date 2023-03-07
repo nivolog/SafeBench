@@ -139,9 +139,10 @@ class ScenarioManager(object):
                     timestamp = snapshot.timestamp
             if timestamp:
                 self._tick_scenario(timestamp)
-                print("scenario definations: ", self.scenario_class.sampled_scenarios_definitions)
-                print("ego position: ", CarlaDataProvider.get_transform(self.ego_vehicles[0]))
-                # actors = list(CarlaDataProvider.get_actors())
+                #print("scenario definations: ", self.scenario_class.sampled_scenarios_definitions)
+                #print("ego position: ", CarlaDataProvider.get_transform(self.ego_vehicles[0]))
+                actors = list(CarlaDataProvider.get_actors())
+                print(actors)
                 # ego_location = actors[0][1].get_location()
                 # ego_location_list.append([ego_location.x, ego_location.y, ego_location.z])
                 # actor_location = actors[1][1].get_location()
@@ -200,7 +201,7 @@ class ScenarioManager(object):
             # Update game time and actor information
             GameTime.on_carla_tick(timestamp)
             CarlaDataProvider.on_carla_tick()
-
+            
             # if self._agent is not None:
                 # ego_action = self._agent()
 

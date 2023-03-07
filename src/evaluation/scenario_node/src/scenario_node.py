@@ -168,7 +168,10 @@ if __name__ == "__main__":
                                   scenario_id=scenario_id,
                                   route_id=route_id,
                                   method=method,
-                                  risk_level=risk_level)
+                                  risk_level=risk_level,
+                                  debug=True,
+                                  waitForEgo=True,
+                                  sync=True)
 
     try:
         set_seed(arguments.seed)
